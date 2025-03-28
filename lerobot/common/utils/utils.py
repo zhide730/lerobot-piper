@@ -125,7 +125,10 @@ def init_logging():
     console_handler.setFormatter(formatter)
     logging.getLogger().addHandler(console_handler)
 
+    # 强制设置日志级别为 INFO
+    logging.getLogger().setLevel(logging.INFO)
 
+    
 def format_big_number(num, precision=0):
     suffixes = ["", "K", "M", "B", "T", "Q"]
     divisor = 1000.0

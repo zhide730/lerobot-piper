@@ -1,0 +1,11 @@
+cd piper_scripts/
+bash can_activate.sh can0 1000000
+
+# record
+python lerobot/scripts/control_robot.py     --robot.type=piper     --robot.inference_time=false     --control.type=record     --control.fps=30     --control.single_task="move"     --control.repo_id=${HF_USER}/move     --control.num_episodes=10     --control.warmup_time_s=10     --control.episode_time_s=40     --control.reset_time_s=10     --control.play_sounds=true --control.push_to_hub=false
+
+# train
+CUDA_VISIBLE_DEVICES=3 python lerobot/scripts/train.py   --dataset.repo_id=${HF_USER}/move   --policy.type=act   --output_dir=outputs/train/act_move   --job_name=act_move   --device=cuda  --wandb.enable=true
+
+# inference
+CUDA_VISIBLE_DEVICES=3 python lerobot/scripts/control_robot.py     --robot.type=piper     --robot.inference_time=true     --control.type=record     --control.fps=30     --control.single_task="move"     --control.repo_id=${HF_USER}/eval_act_move     --control.num_episodes=1     --control.warmup_time_s=2     --control.episode_time_s=30     --control.reset_time_s=10     --control.push_to_hub=false --control.policy.path=/home/tianfu/robotics/lerobot_piper/outputs/train/act_move/checkpoints/last/pretrained_model

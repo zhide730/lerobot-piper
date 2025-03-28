@@ -136,6 +136,7 @@ python lerobot/scripts/control_robot.py \
 
 import logging
 import time
+from datetime import datetime, timezone
 from dataclasses import asdict
 from pprint import pformat
 
@@ -164,13 +165,38 @@ from lerobot.common.robot_devices.control_utils import (
 from lerobot.common.robot_devices.robots.utils import Robot, make_robot_from_config
 from lerobot.common.robot_devices.utils import busy_wait, safe_disconnect
 from lerobot.common.utils.utils import has_method, init_logging, log_say
+# from lerobot.common.utils.utils import has_method, log_say
 from lerobot.configs import parser
 
 ########################################################################################
 # Control modes
 ########################################################################################
 
+# def init_logging():
+#     def custom_format(record):
+#         dt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+#         fnameline = f"{record.pathname}:{record.lineno}"
+#         message = f"{record.levelname} {dt} {fnameline[-15:]:>15} {record.msg}"
+#         return message
 
+#     logging.basicConfig(level=logging.INFO)
+
+#     for handler in logging.root.handlers[:]:
+#         logging.root.removeHandler(handler)
+
+#     formatter = logging.Formatter()
+#     formatter.format = custom_format
+#     console_handler = logging.StreamHandler()
+#     console_handler.setFormatter(formatter)
+#     logging.getLogger().addHandler(console_handler)
+
+#     # 强制设置日志级别为 INFO
+#     logging.getLogger().setLevel(logging.INFO)
+    
+#     print("Logging initialized")  # Add this line to check if the function is called
+#     print(f"Logging level: {logging.getLogger().level}")  # 检查日志级别
+#     print(f"Handlers: {logging.getLogger().handlers}")  # 检查处理程序
+    
 @safe_disconnect
 def calibrate(robot: Robot, cfg: CalibrateControlConfig):
     # TODO(aliberts): move this code in robots' classes

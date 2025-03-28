@@ -27,6 +27,7 @@ from lerobot.common.robot_devices.motors.configs import (
     DynamixelMotorsBusConfig,
     FeetechMotorsBusConfig,
     MotorsBusConfig,
+    PiperMotorsBusConfig
 )
 
 
